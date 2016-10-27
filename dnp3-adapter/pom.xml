@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>openfmb-dnp3-adapter</artifactId>
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>com.greenenergycorp.openfmb</groupId>
+        <artifactId>openfmb-adapters-parent</artifactId>
+        <version>0.0.5-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <configuration>
+                    <header>../APACHE_FILE_HEADER</header>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.greenenergycorp.openfmb</groupId>
+            <artifactId>openfmb-adapter-configuration</artifactId>
+            <version>0.0.5-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.greenenergycorp.openfmb</groupId>
+            <artifactId>openfmb-mapping-library</artifactId>
+            <version>0.0.5-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.totalgrid.dnp3</groupId>
+            <artifactId>opendnp3</artifactId>
+            <version>1.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j-api.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

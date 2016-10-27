@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.greenenergycorp.openfmb</groupId>
+        <artifactId>openfmb-adapters-parent</artifactId>
+        <version>0.0.5-SNAPSHOT</version>
+        <relativePath>../</relativePath>
+    </parent>
+
+    <artifactId>openfmb-xml-bindings</artifactId>
+    <packaging>jar</packaging>
+
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+
+    <profiles>
+        <profile>
+            <id>openfmb-jaxb</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>jaxb2-maven-plugin</artifactId>
+                        <version>${jaxb2-maven-plugin.version}</version>
+                        <executions>
+                            <!-- Need a separate execution for each packageName -->
+                            <execution>
+                                <id>jaxb-build</id>
+                                <goals>
+                                    <goal>xjc</goal>
+                                </goals>
+                                <configuration>
+                                    <packageName>com.greenenergycorp.openfmb.xml</packageName>
+                                    <sources>
+                                        <source>xsd</source>
+                                    </sources>
+                                    <xjbSources>
+                                        <xjbSource>xjb</xjbSource>
+                                    </xjbSources>
+                                    <outputDirectory>
+                                        src/main/java
+                                    </outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${jaxb-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${jaxb-impl.version}</version>
+        </dependency>
+    </dependencies>
+
+
+</project>
