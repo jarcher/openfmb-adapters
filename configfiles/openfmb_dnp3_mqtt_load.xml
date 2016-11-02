@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpenFMBDNP3 xmlns:dnp3="APLXML.DNP" xmlns:apl="APLXML.Base"
+             xmlns:fmb="org.openfmb.microgrid.config.xml"
+             xmlns="org.openfmb.microgrid.dnp3.xml">
+
+    <Publishers>
+        <fmb:ResourceReadingProfile
+                adapterName="ResourceReading"
+                topic="openfmb/resourcemodule/ResourceReadingProfile"
+                logicalDeviceId="DEMO.MGRID.RESOURCE.2"
+                mRID="DEMO.MGRID.RESOURCE.2"
+                name="Simulated Load"
+                description="Soft Load">
+        <fmb:PowerSystemResource
+                    mRID="DEMO.MGRID.RESOURCE.2"
+                    name="Simulated Load"
+                    description="Soft Load Service"/>
+        </fmb:ResourceReadingProfile>
+ 
+    </Publishers>
+
+
+    <Subscribers>
+
+    </Subscribers>
+ 
+
+
+    <DNP3Masters>
+        <DNP3Master>
+            <dnp3:Master>
+                <dnp3:Stack>
+                    <dnp3:LinkLayer RemoteBuffFullTimeoutMS="0" NumRetries="3" AckTimeoutMS="1000" UseConfirmations="false" RemoteAddress="1" LocalAddress="100" IsMaster="true"/>
+                    <dnp3:AppLayer NumRetries="0" MaxFragSize="2048" TimeoutMS="5000"/>
+                </dnp3:Stack>
+                <dnp3:MasterSettings IntegrityPeriodMS="300000" TaskRetryMS="5000" AllowTimeSync="true"/>
+                <dnp3:ScanList>
+                    <dnp3:ExceptionScan PeriodMS="2000" Class3="true" Class2="true" Class1="true"/>
+                </dnp3:ScanList>
+                <dnp3:Unsol Class3="true" Class2="true" Class1="true" Enable="false" DoTask="false"/>
+            </dnp3:Master>
+            <apl:TCPClient Address="127.0.0.1" Port="20000" OpenRetryMS="5000"/>
+
+            <!--
+                Valid log levels:
+
+                  - LOG_DEBUG
+                  - LOG_COMM
+                  - LOG_INTERPRET
+                  - LOG_INFO
+                  - LOG_WARNING
+                  - LOG_ERROR
+                  - LOG_EVENT
+            -->
+            <apl:Log Filter="LOG_INFO"/>
+
+            <IndexMapping>
+                <Analogs>
+                    <Mapping index="0" adapterName="ResourceReading"  name="Load" unit="W"  multiplier="kilo" phases="ABC"   flowDirection="total">
+                        <fmb:transform>
+                    
+                        </fmb:transform>
+                    </Mapping>
+
+                </Analogs>
+
+                <Binaries>
+  
+                </Binaries>
+
+               <ControlFromEndDeviceControlMappings>
+
+               </ControlFromEndDeviceControlMappings>
+              
+               <SetpointFromSetPointMappings>
+
+               </SetpointFromSetPointMappings>
+
+            </IndexMapping>
+        </DNP3Master>
+    </DNP3Masters>
+</OpenFMBDNP3>

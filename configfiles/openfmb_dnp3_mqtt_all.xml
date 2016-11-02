@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OpenFMBDNP3 xmlns:dnp3="APLXML.DNP" xmlns:apl="APLXML.Base"
+             xmlns:fmb="org.openfmb.microgrid.config.xml"
+             xmlns="org.openfmb.microgrid.dnp3.xml">
+
+    <Publishers>
+        <fmb:SolarReadingProfile
+                adapterName="SolarReading"
+                topic="openfmb/solarmodule/SolarReadingProfile"
+                logicalDeviceId="DEMO.MGRID.SOLAR.1"
+                mRID="DEMO.MGRID.SOLAR.1"
+                name="Simulated Solar"
+                description="Soft Solar"/>
+        <fmb:SolarEventProfile
+                adapterName="SolarEvent"
+                topic="openfmb/solarmodule/SolarEventProfile"
+                logicalDeviceId="DEMO.MGRID.SOLAR.1"
+                mRID="DEMO.MGRID.SOLAR.1"
+                name="Simulated Solar"
+                description="Soft Solar"/>
+        <fmb:ResourceReadingProfile
+                adapterName="ResourceReading"
+                topic="openfmb/resourcemodule/ResourceReadingProfile"
+                logicalDeviceId="DEMO.MGRID.LOAD.1"
+                mRID="DEMO.MGRID.LOAD.1"
+                name="Simulated Load"
+                description="Soft Load">
+        <fmb:PowerSystemResource
+                    mRID="DEMO.MGRID.LOAD.1"
+                    name="Simulated Load"
+                    description="Soft Load Service"/>
+        </fmb:ResourceReadingProfile>
+        <fmb:BatteryReadingProfile
+                adapterName="BatteryReading"
+                topic="openfmb/batterymodule/BatteryReadingProfile"                
+                logicalDeviceId="DEMO.MGRID.BATTERY.1"
+                mRID="DEMO.MGRID.BATTERY.1"
+                name="Soft Battery"
+                description="Soft Battery Service"/>
+        <fmb:BatteryEventProfile
+                adapterName="BatteryEvent"
+                topic="openfmb/batterymodule/BatteryEventProfile"
+                logicalDeviceId="DEMO.MGRID.BATTERY.1"
+                mRID="DEMO.MGRID.BATTERY.1"
+                name="Soft Battery"
+                description="Soft Battery Service"/>
+        <fmb:RecloserReadingProfile
+                adapterName="RecloserReading"
+                topic="openfmb/reclosermodule/RecloserReadingProfile"
+                logicalDeviceId="DEMO.MGRID.RECLOSER.1"
+                mRID="DEMO.MGRID.RECLOSER.1"
+                name="Fancy Vendor Switch"
+                description="Fancy Vendor Switch with sync check"
+                normalOpen="false"/>
+        <fmb:RecloserEventProfile
+               adapterName="RecloserEvent"
+               topic="openfmb/reclosermodule/RecloserEventProfile"
+               logicalDeviceId="DEMO.MGRID.RECLOSER.1"
+               mRID="DEMO.MGRID.RECLOSER.1"
+               name="Fancy Vendor Switch"
+               description="Fancy Vendor Switch with sync check"
+               normalOpen="false"/>
+    </Publishers>
+
+
+    <Subscribers>
+        <fmb:RecloserControlProfile adapterName="RecloserControl" topic="openfmb/reclosermodule/RecloserControlProfile" logicalDeviceId="DEMO.MGRID.RECLOSER.1"/>
+        <fmb:BatteryControlProfile adapterName="BatteryControl" topic="openfmb/batterymodule/BatteryControlProfile" logicalDeviceId="DEMO.MGRID.RECLOSER.1"/> 
+    </Subscribers>
+ 
+
+
+    <DNP3Masters>
+        <DNP3Master>
+            <dnp3:Master>
+                <dnp3:Stack>
+                    <dnp3:LinkLayer RemoteBuffFullTimeoutMS="0" NumRetries="3" AckTimeoutMS="1000" UseConfirmations="false" RemoteAddress="1" LocalAddress="100" IsMaster="true"/>
+                    <dnp3:AppLayer NumRetries="0" MaxFragSize="2048" TimeoutMS="5000"/>
+                </dnp3:Stack>
+                <dnp3:MasterSettings IntegrityPeriodMS="300000" TaskRetryMS="5000" AllowTimeSync="true"/>
+                <dnp3:ScanList>
+                    <dnp3:ExceptionScan PeriodMS="2000" Class3="true" Class2="true" Class1="true"/>
+                </dnp3:ScanList>
+                <dnp3:Unsol Class3="true" Class2="true" Class1="true" Enable="false" DoTask="false"/>
+            </dnp3:Master>
+            <apl:TCPClient Address="127.0.0.1" Port="20000" OpenRetryMS="5000"/>
+
+            <!--
+                Valid log levels:
+
+                  - LOG_DEBUG
+                  - LOG_COMM
+                  - LOG_INTERPRET
+                  - LOG_INFO
+                  - LOG_WARNING
+                  - LOG_ERROR
+                  - LOG_EVENT
+            -->
+            <apl:Log Filter="LOG_INFO"/>
+
+            <IndexMapping>
+                <Analogs>
+                    <Mapping index="0" adapterName="SolarReading"  name="SolarPower" unit="W" multiplier="kilo" phases="ABC"   flowDirection="total">
+                        <fmb:transform>
+                        </fmb:transform>
+                    </Mapping>
+ 
+                    <Mapping index="1" adapterName="SolarEvent"  key="isConnected">
+                        <fmb:transform>
+                        </fmb:transform>
+                    </Mapping>
+
+                    <Mapping index="2" adapterName="ResourceReading"  name="Load" unit="W"  multiplier="kilo" phases="ABC"   flowDirection="total">
+                        <fmb:transform>
+                            <fmb:scale multiplier="0.01"/>
+                        </fmb:transform>
+                    </Mapping>
+
+                    <Mapping index="3" adapterName="BatteryEvent"  key="mode" >
+                        <fmb:transform>
+
+			    <fmb:match defaultStringValue="unknown">
+                                <fmb:case matchIntegerValue="0" toStringValue="Standby"/>
+                                <fmb:case matchIntegerValue="1" toStringValue="Firm"/>
+                                <fmb:case matchIntegerValue="2" toStringValue="Dispatch"/>
+                                <fmb:case matchIntegerValue="3" toStringValue="Charge"/>
+                                <fmb:case matchIntegerValue="4" toStringValue="Maintain Minimum Battery SoC"/>
+                                <fmb:case matchIntegerValue="5" toStringValue="Sleep"/>
+                                <fmb:case matchIntegerValue="6" toStringValue="Fault"/>
+                                <fmb:case matchIntegerValue="7" toStringValue="Firmware Update"/>
+                                <fmb:case matchIntegerValue="8" toStringValue="Isolated"/>
+                        	<fmb:case matchIntegerValue="9" toStringValue="Leaving Isolated"/>
+                        	<fmb:case matchIntegerValue="10" toStringValue="Precharge"/>
+                        	<fmb:case matchIntegerValue="11" toStringValue="Peak Management"/>
+                        	<fmb:case matchIntegerValue="12" toStringValue="Programmed P/Q"/>
+                        	<fmb:case matchIntegerValue="13" toStringValue="Islanded"/>
+                        	<fmb:case matchIntegerValue="14" toStringValue="Leaving Islanded"/>
+                    	      </fmb:match>
+                        </fmb:transform>
+                     </Mapping>
+
+                    <Mapping index="4" adapterName="BatteryEvent"  key="isCharging">
+                        <fmb:transform>
+                           
+                        </fmb:transform>
+                    </Mapping>
+
+                    <Mapping index="5" adapterName="BatteryEvent"  key="stateOfCharge">
+                        <fmb:transform>
+                                                 
+                        </fmb:transform>
+                    </Mapping>
+
+                    <Mapping index="6" adapterName="BatteryEvent"  key="isConnected">
+                        <fmb:transform>                     
+                        </fmb:transform>
+                    </Mapping>
+
+                     <Mapping index="7" adapterName="BatteryReading"  name="Power" unit="W"  multiplier="kilo" phases="ABC"   flowDirection="total">
+                         <fmb:transform>
+                         </fmb:transform>
+                     </Mapping>
+
+                      <Mapping index="8" adapterName="BatteryReading"  name="ReactivePower" unit="VAr" multiplier="kilo" phases="ABC"   flowDirection="total">
+                            <fmb:transform>                       
+                            </fmb:transform>
+                      </Mapping>
+                      <Mapping index="9" adapterName="RecloserReading"  name="Power" unit="W" multiplier="kilo" phases="ABC"   flowDirection="total">
+                            <fmb:transform>                       
+                            </fmb:transform>
+                      </Mapping>
+                   </Analogs>
+
+                <Binaries>
+                <Mapping index="0" adapterName="BatteryEvent" key="isIslanded">
+                        <fmb:transform>
+                            <!--<fmb:match defaultBooleanValue="false">
+                            <Mapping index="0" adapterName="PowerHub_Control" key="isIslanded" matchBoolValue="true" constIntValue="13"/>
+                            </fmb:match>-->
+                        </fmb:transform>
+                    </Mapping>
+    
+		<Mapping index="1" adapterName="RecloserEvent" key="SwitchStatus">
+                        <fmb:transform>
+                            <fmb:match defaultBooleanValue="false">
+                                <fmb:case matchBooleanValue="false" toBooleanValue="true"/>
+                                <fmb:case matchBooleanValue="true" toBooleanValue="false"/>
+                            </fmb:match>
+                        </fmb:transform>
+                    </Mapping>
+                    <Mapping index="2" adapterName="RecloserEvent" key="isBlocked">
+                        <fmb:transform>
+                            <fmb:match defaultBooleanValue="false">
+                                <fmb:case matchBooleanValue="false" toBooleanValue="true"/>
+                                <fmb:case matchBooleanValue="true" toBooleanValue="false"/>
+                            </fmb:match>
+                        </fmb:transform>
+                    </Mapping>
+                </Binaries>
+
+               <ControlFromEndDeviceControlMappings>
+                   <Mapping adapterName="RecloserControl" action="trip" type="" index="0"> 
+                     <ControlOptions type="LATCH_ON" count="1"/>
+                   </Mapping>
+                   <Mapping adapterName="RecloserControl" action="close" type="" index="1">
+                     <ControlOptions type="LATCH_ON" count="1"/>
+                   </Mapping>
+               </ControlFromEndDeviceControlMappings>
+              
+               <SetpointFromSetPointMappings>
+                   <Mapping adapterName="BatteryControl" index="0" controlType="SetMode" unit="noUnit" multiplier="noMultiplier"/>
+                   <Mapping adapterName="BatteryControl" index="1" controlType="SetRealPower" unit="W" multiplier="kilo"/>
+               </SetpointFromSetPointMappings>
+
+            </IndexMapping>
+        </DNP3Master>
+    </DNP3Masters>
+</OpenFMBDNP3>
