@@ -12,7 +12,7 @@ Each adapter uses a configuration file to mapping the device protocol objects to
 
 # Installing / Getting started
 
-In order to use the DNP3 adapter you will need to install a DNP3 L2 master and slave on your system.  The instructions for to that are location [here](https://github.com/openfmb/openfmb-adapters/DNP3INSTALL.md).  
+In order to use the DNP3 adapter you will need to install a DNP3 L2 master and slave on your system.  The instructions for to that are location [here](https://github.com/openfmb/openfmb-adapters/blob/master/DNP3INSTALL.md).  
 
 The modbus adapter is installed during the build. 
 
@@ -48,9 +48,9 @@ The build jar(s) are put in the target directories for the dnp3-to-mqtt and the 
 
 There is no configuration required specifically for the project to build.  The adapters will need to be configured to run.  
 
-Refer to this [page](https://github.com/openfmb/openfmb-adapters/DNP3TESTSET.md) on basic instructions for the DNP3 Slave Test Set.
+Refer to this [page](https://github.com/openfmb/openfmb-adapters/blob/master/DNP3TESTSET.md) on basic instructions for the DNP3 Slave Test Set.
 
-Refer to this [page](https://github.com/openfmb/openfmb-adapters/OPENFMBMODELING.md) for adapter modeling information that supports both the DNP3 and Modbus adapters.  Sample configuration files for both modbus and dnp3 have been provided. 
+Refer to this [page](https://github.com/openfmb/openfmb-adapters/blob/master/OPENFMBMODELING.md) for adapter modeling information that supports both the DNP3 and Modbus adapters.  Sample configuration files for both modbus and dnp3 have been provided. 
 
 # Contributing
 
