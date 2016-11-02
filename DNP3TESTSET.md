@@ -1,13 +1,4 @@
-The DNP3 Master can be run with the provide shell scripts in the **stage** directory.
-
-      ./run_dnp_adapter.sh
-
-NOTE:  The shell script includes the configuration file being used by the adapter.  You can modified the shell script for another configuration file or run the adapter directly from the command line with the configuration file of choice.
-
-      java -cp openfmb-dnp3-to-mqtt-0.0.5-SNAPSHOT-jar-with-dependencies.jar com.greenenergycorp.openfmb.mapping.mqtt.dnp3.Dnp3ToMqttEntry openfmb_dnp3_mqtt.xml
-
-
-## Starting the DNP3 Slave Client
+# Starting the DNP3 Slave Client
 
 For the DNP3 Slave you can run it from the *stage* directory.  This slave configuration file correlates to the adapter configuration file for all devices.
 
