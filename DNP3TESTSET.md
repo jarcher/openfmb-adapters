@@ -24,4 +24,3 @@ Typing the following sets analog 0 in the slave to 56 and flushes it so the mast
 + The **flush** tells the test set to make it available to the master.
 
 
-all
