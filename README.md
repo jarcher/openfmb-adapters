@@ -23,7 +23,7 @@ shell
 java -cp openfmb-dnp3-to-mqtt-0.0.5-SNAPSHOT-jar-with-dependencies.jar com.greenenergycorp.openfmb.mapping.mqtt.dnp3.Dnp3ToMqttEntry openfmb_dnp3_mqtt.xml
 ```
 
-Note the config file in this case in is the same directory as the jar and called openfmb_dnp3_mqtt.xml
+Note the config file in this case in is the same directory as the jar and called openfmb_dnp3_mqtt.xml.
 
 To run the DNP3 Test Set you will need to use the following command.
 
@@ -33,6 +33,15 @@ dnp3testset-S -F dnp3_slave_default.xml
 ```
 Note: the config file in this case is called dnp3_slave_default.xml
 
+The Modbus Adapter is provided as part of the code based and binaries for download.   For the Modbus Adapter it requires Java. To configure the adapter to match up with a simulator you will need a Modbus slave device or testset (which is not included in this distribution).  There are three devices that can be implemented with this adapter.  Solar, Load and Battery. A MODBUS slave test set can be found in the community for testing if required.
+
+To run the Modbus Adapte you will need to use the following command.
+
+```
+shell
+java -cp openfmb-dnp3-to-mqtt-0.0.5-SNAPSHOT-jar-with-dependencies.jar com.greenenergycorp.openfmb.mapping.mqtt.modbus.ModbusToMqttEntry openfmb_modbus_mqtt_battery.xml
+```
+Note the config file in this case in is the same directory as the jar and called openfmb_modbus_mqtt_battery.xml.
 
 ## Building
 
