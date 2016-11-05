@@ -43,6 +43,10 @@ java -cp openfmb-dnp3-to-mqtt-0.0.5-SNAPSHOT-jar-with-dependencies.jar com.green
 ```
 Note the config file in this case in is the same directory as the jar and called openfmb_modbus_mqtt_battery.xml.
 
+## Dependencies
+
+Please refer to the Wiki pages for the [Demonstration](https://github.com/openfmb/turnkey-dtech-demo-2016/wiki/Simulation-Demonstration) and [Prerequisites](https://github.com/openfmb/turnkey-dtech-demo-2016/wiki/Simulation-Prerequisites) for the demo and these cooresponding repository projects. 
+
 ## Building
 
 ```shell
