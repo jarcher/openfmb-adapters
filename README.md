@@ -63,7 +63,7 @@ Refer to this [page](https://github.com/openfmb/openfmb-adapters/blob/master/OPE
 
 # Contributing
 
-Green Energy Corp, Daniel Evans
+Daniel Evans, Green Energy Corp
 
 If you'd like to contribute, please fork the repository and use a feature
 branch. Pull requests are warmly welcome.
